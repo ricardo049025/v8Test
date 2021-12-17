@@ -1,5 +1,6 @@
-import {Modal, Button} from "react-bootstrap";
 import { useState, useEffect } from "react";
+import {Modal,Button} from "react-bootstrap";
+import swal from 'sweetalert';
 
 export const ModalComponent = (props) => {
     const SERVER_API = "https://localhost:44382/";    
@@ -42,7 +43,13 @@ export const ModalComponent = (props) => {
             body: JSON.stringify(data)
         }).then(response => response.json())
         .then(response => {
-            alert(response.message);
+            if(response.success){
+                swal("Success", "Added / Updated  process", "success");
+            }else{
+                swal("Error", response.message, "error");
+            }
+
+
         }).catch(error => alert("error aqui"));
     }
 
@@ -82,6 +89,7 @@ export const ModalComponent = (props) => {
             setPosition(res);
         })
     }
+    
     useEffect(() => {
         const loadDependencies = () => {
             loadOffices();
@@ -240,12 +248,8 @@ export const ModalComponent = (props) => {
             </div>            
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={props.onClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={() => saveRecord()}>
-            Save Changes
-          </Button>
+          <Button variant="secondary" onClick={props.onClose}>Close</Button>
+          <Button variant="primary" onClick={() => saveRecord()}>Save Changes</Button>
         </Modal.Footer>
       </Modal>
         </>

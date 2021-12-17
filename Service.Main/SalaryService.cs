@@ -80,6 +80,36 @@ namespace Service.Main
             return salaryRepository.getSalaryCalculated();
         }
 
+        public List<SalaryCalculateDTO> getSalaryCalculatedbyFilter(string identification, int filtertype)
+        {
+            List<SalaryCalculateDTO> data = getSalaryCalculated();
+            SalaryCalculateDTO employee = data.Find(x => x.IdentificationNumber == identification);
+            List<SalaryCalculateDTO> query = null;
+
+            switch (filtertype)
+            {
+                case 1:
+                    query = data.FindAll(x => x.office == employee.office && x.grade == employee.grade && x.IdentificationNumber != employee.IdentificationNumber);
+                    break;
+
+                case 2:
+                case 4:
+                    query = data.FindAll(x => x.grade == employee.grade && x.IdentificationNumber != employee.IdentificationNumber);
+                    break;
+
+                case 3:
+                    query = data.FindAll(x => x.Position == employee.Position && x.grade == employee.grade && x.IdentificationNumber != employee.IdentificationNumber);
+                    break;
+
+                default:
+                    query = new List<SalaryCalculateDTO>();
+                    break;  
+            }
+
+
+            return query;
+        }
+
         /// <summary>
         /// Ricardo Martinez.
         /// Retrive information about the last three salaries
@@ -99,6 +129,10 @@ namespace Service.Main
             return salaryRepository.getSalariesPrincipal();
         }
 
+        public List<EmployeeDTO> getEmployees()
+        {
+            return salaryRepository.getEmployees();
+        }
 
         #endregion
 
@@ -109,6 +143,13 @@ namespace Service.Main
             List<Salary> salaries = new List<Salary>();
             bool success = true;
             string message = "success";
+
+            if (HelperUtility.MonthDifference(post.toDate.AddDays(1), post.fromDate) == 0) 
+            {
+                success = false;
+                message += "The range between the dates cannot be less than one month";
+                return new ResponseSalaryDTO() { success = success, message = message };
+            }
 
             //Creating the list o add or edit
             for (int i = 0; i < HelperUtility.MonthDifference(post.toDate.AddDays(1), post.fromDate); i++)

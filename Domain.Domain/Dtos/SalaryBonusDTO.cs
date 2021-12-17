@@ -9,6 +9,6 @@ namespace Domain.Domain.Dtos
     public class SalaryBonusDTO
     {
        public List<SalaryDTO> salaries { set; get; }
-        public decimal Bonus { set; get; }
+        public decimal bonus { set; get; }
     }
 }

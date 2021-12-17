@@ -36,5 +36,35 @@ namespace WebApiV8.Controllers
         {
             return salaryService.addNewSalary(post);            
         }
+
+        [HttpGet]
+        [Route("GetCalculatedSalary")]
+        public List<SalaryCalculateDTO> GetSalaryCalculated()
+        {
+            return salaryService.getSalaryCalculated();
+        }
+                
+        [HttpGet]
+        [Route("GetLasthreeSalariesBonus")]        
+        public SalaryBonusDTO GetLasthreeSalariesBonus(string employeeCode)
+        {
+            return salaryService.getLasthreeSalaries(employeeCode);
+        }
+
+        [HttpGet]
+        [Route("GetEmployees")]
+        public List<EmployeeDTO> getEmployees()
+        {
+
+            return salaryService.getEmployees();
+        }
+
+        [HttpGet]
+        [Route("getEmployeesFilter")]
+        public List<SalaryCalculateDTO> getEmployeesFilter(string identification, int filterType)
+        {
+
+            return salaryService.getSalaryCalculatedbyFilter(identification,filterType);
+        }
     }
 }

@@ -34,15 +34,17 @@ namespace Domain.Domain.Helpers
         {
             List<SalaryDTO> salariesDTO = new List<SalaryDTO>();
             SalaryBonusDTO salaryBonusDTO = new SalaryBonusDTO();
-            decimal bonus = salaries.Sum(x => x.BaseSalary) / 3;
+            decimal bonus = Math.Round((salaries.Sum(x => x.BaseSalary) / 3), 2);
             int j = 0;
             for (int i = 0; i < salaries.Count; i++)
             {
                 SalaryDTO dto = new SalaryDTO();
-                dto.Id = salaries[i].Id;
-                dto.Month = salaries[i].Month;
-                dto.Year = salaries[i].Year;
-                dto.BaseSalary = salaries[i].BaseSalary;
+                dto.id = salaries[i].Id;
+                dto.employeeCode = salaries[i].EmployeeCode;
+                dto.fullName = $"{salaries[i].EmployeeName} {salaries[i].EmployeeSurname}";
+                dto.month = salaries[i].Month;
+                dto.year = salaries[i].Year;
+                dto.baseSalary = salaries[i].BaseSalary;
 
                 if (i == 0) 
                 {
@@ -51,7 +53,7 @@ namespace Domain.Domain.Helpers
                 }
                 else 
                 {
-                    if (HelperUtility.MonthDifference(new DateTime(salariesDTO[j-1].Year, salariesDTO[j - 1].Month, 1), new DateTime(dto.Year, dto.Month, 1)) == 1)
+                    if (HelperUtility.MonthDifference(new DateTime(salariesDTO[j-1].year, salariesDTO[j - 1].month, 1), new DateTime(dto.year, dto.month, 1)) == 1)
                     {
                         salariesDTO.Add(dto);
                         j++;
@@ -60,7 +62,7 @@ namespace Domain.Domain.Helpers
 
             }
 
-            salaryBonusDTO.Bonus = bonus;
+            salaryBonusDTO.bonus = bonus;
             salaryBonusDTO.salaries = salariesDTO;
 
             return salaryBonusDTO;   

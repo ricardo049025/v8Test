@@ -17,9 +17,11 @@ namespace Domain.Domain.Dtos
         public string FullName { set; get; }
         public string Divition { set; get; }
         public string Position { set; get; }
-        public DateTime BeginDate { set; get; }
-        public DateTime Birthday { set; get; }
+        public string BeginDate { set; get; }
+        public string Birthday { set; get; }
         public string IdentificationNumber { set; get; }
+        public int grade { set; get; }
+        public string office { set; get; }
         public decimal TotalSalary { set; get; }
 
     }

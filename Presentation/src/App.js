@@ -1,33 +1,22 @@
-import React, {useState, useEffect} from "react";
-import { TableComponent } from "./components/table/table.component";
-import 'bootstrap/dist/css/bootstrap.min.css';
-    
-const App = () => {
+import Home from './pages/Home.js';
+import Task3 from './pages/Task3.js';
+import Task5 from './pages/Task5.js';
+import Layout from './Layouts/Layout.js';
+import {BrowserRouter,Routes,Route} from "react-router-dom";
+function App() {
 
-    const SERVER_API = "https://localhost:44382/";
-    const [data, setData] = useState([]);
+  return (
+    <BrowserRouter>
+    <Layout/>
+    <Routes>
+      <Route path="/" element={<Home />}/>
+      <Route path="/Home" element={<Home />} />      
+      <Route path="/Task3" element={<Task3 />} />      
+      <Route path="/Task5" element={<Task5 />} />      
+    </Routes>
+  </BrowserRouter>
 
-    useEffect(() => {
-        const loadRecords = () => {
-            fetch(`${SERVER_API}salary`,{
-                method:"get",
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            }).then(result => result.json()).then(response => {
-                setData(response);
-            });
-        }
-        loadRecords();
-    },[])
-
-    return(
-        <div className="mt-5 d-flex w-100 text-center justify-content-center">
-            <TableComponent 
-            id="id"
-            data={data}
-            />
-        </div>
-    )
+  );
 }
+
 export default App;

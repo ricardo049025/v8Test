@@ -17,5 +17,7 @@ namespace Domain.Domain.Interfaces.Services
         SalaryBonusDTO getLasthreeSalaries(string codeEmployee);
         List<SalaryPrincipalDTO> getSalariesDTO();
         ResponseSalaryDTO addNewSalary(SalaryPostDTO post);
+        List<EmployeeDTO> getEmployees();
+        List<SalaryCalculateDTO> getSalaryCalculatedbyFilter(string identification, int filtertype);
     }
 }

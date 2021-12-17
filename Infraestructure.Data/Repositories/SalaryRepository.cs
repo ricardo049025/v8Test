@@ -47,18 +47,22 @@ namespace Infraestructure.Data.Repositories
                         };
 
             var query2 = from e in query
-                         join s in context.Salaries.AsNoTracking().Include(x => x.Division)
+                         join s in context.Salaries.Include(x => x.Division)
                                                    .Include(y => y.Position)
                                                    .Include(z => z.Office)
+                                                   .AsNoTracking()
+
                          on new { e.IdentificationNumber, e.Year, e.Month } equals new { s.IdentificationNumber, s.Year, s.Month }
                          select new SalaryCalculateDTO
                          {
                              FullName = ($"{e.EmployeeName} {e.EmployeeSurname}"),
                              Divition = s.Division.Name,
                              Position = s.Position.Name,
-                             BeginDate = s.BeginDate,
-                             Birthday = s.Birthday,
-                             IdentificationNumber = e.IdentificationNumber,
+                             BeginDate = s.BeginDate.ToString("dd-MM-yyyy"),
+                             Birthday = s.Birthday.ToString("dd-MM-yyyy"),
+                             IdentificationNumber = s.IdentificationNumber,
+                             grade = s.Grade,
+                             office = s.Office.Name,
                              TotalSalary = HelperSalary.calculateTotalSalary(s.BaseSalary,s.Commission,s.ProductionBonus,s.CompensationBonus,s.Contributions)
                          };
 
@@ -99,6 +103,26 @@ namespace Infraestructure.Data.Repositories
                         };
 
             return query.ToList();
+        }
+
+        public List<EmployeeDTO> getEmployees()
+        {
+            var query = (from e in context.Salaries.AsNoTracking()
+                        group e by new { e.EmployeeName, e.EmployeeSurname, e.IdentificationNumber } into g
+                        select new EmployeeDTO
+                        {
+                            fullName = $"{g.Key.EmployeeName} {g.Key.EmployeeSurname}",
+                            identification = g.Key.IdentificationNumber,
+                            
+                        }).ToList();
+
+            EmployeeDTO dt = new EmployeeDTO();
+            dt.fullName = "Seleccione un Empleado";
+            dt.identification = "0";
+
+            query.Insert(0, dt);
+
+            return query;
         }
     }
 }

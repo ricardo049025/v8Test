@@ -8,9 +8,11 @@ namespace Domain.Domain.Dtos
 {
     public class SalaryDTO
     {
-        public int Id { set; get; }
-        public int Year { set; get; }
-        public int Month { set; get; }
-        public decimal BaseSalary { set; get; }
+        public int id { set; get; }
+        public string fullName { set; get; }
+        public string employeeCode { set; get; }
+        public int year { set; get; }
+        public int month { set; get; }
+        public decimal baseSalary { set; get; }
     }
 }

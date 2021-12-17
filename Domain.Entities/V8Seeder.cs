@@ -186,7 +186,7 @@ namespace Domain.Entities
             Random ra = new Random();
 
             //Adding last 6 month salary for each employee
-            foreach (EmployeeDTO dto in employees)
+            foreach (EmployeeDTO dto in employees)  
             {
                 for (int i = 1; i <= 6; i++)
                 {
